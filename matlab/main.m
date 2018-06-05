@@ -2,8 +2,12 @@ DATA = csvread('../resources/recipeData_mod.csv',1,0);
 
 [X, y, X_xval, y_xval] = extractCrossValidationSet(DATA);
 
+%STEP 1: Normalize data
+norm_X = X - min(X(:));
+norm_X = norm_X ./ (max(X(:)) - min(X(:)));
+
 %STEP 1: PREDICTION USING LOGREG WITH ONE VS ALL APPROACH FOR LBP FEATURES
-theta = OneVsAll(X, y, 177, 0);
+theta = OneVsAll(norm_X, y, 177, 0);
 
 %For xval
 p = predictOneVsAll(theta, X_xval);
