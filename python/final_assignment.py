@@ -120,7 +120,7 @@ def separate_groups(file_contents, threshold):
         if value >= separation_threshold:
             group_1_classes.append(key)
         else:
-            if value > 1:
+            if value > 1: 
                 group_2_classes.append(key)
 
     #Make 2 copies of original dataset
@@ -173,7 +173,7 @@ def test_train_split(file_contents):
     y = file_contents['StyleID']
     X = file_contents[file_contents.columns[0:5]]
     
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=0)
+    sss = StratifiedShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
     generator = sss.split(X, y)
     gen_list = list(generator)
     
@@ -203,8 +203,9 @@ def knn(X_train, y_train, X_test, y_test, k):
     pred = knn.predict(X_test)
     pred2 = knn.predict(X_train)
     
-    #Yields an accuracy of 31%
+    #Validation
     print (accuracy_score(y_test, pred))
+    #Train
     print (accuracy_score(y_train, pred2))
 
 #Multiclass SVM (OVO)
@@ -215,9 +216,10 @@ def multiclass_svm_ovo(X_train, y_train, X_test, y_test):
     
     pred = clf.predict(X_test)
     pred2 = clf.predict(X_train)
-    
-    #Yields an accuracy of 33%
+
+    #Validation
     print (accuracy_score(y_test, pred))
+    #Train
     print (accuracy_score(y_train, pred2))
 
 #Multiclass SVM (OVA)
@@ -226,7 +228,6 @@ def multiclass_svm_ova(X_train, y_train, X_test, y_test):
     lin_clf.fit(X_train, y_train) 
     pred = lin_clf.predict(X_test)
     
-    #Yields an accuracy of 3.1%
     print(accuracy_score(y_test, pred))
 
     #clf.decision_function(X_train)
@@ -238,18 +239,18 @@ def random_forest(X_train, y_train, X_test, y_test, n_estimators):
     pred = rf.predict(X_test)
     pred2 = rf.predict(X_train)
     
-    #Yields an accuracy of 39,4% with n_estimators = 100 with dataset1 (threshold of frequency = 300)
-    #And 47% with threshold = 550
+    #Validation
     print(accuracy_score(y_test, pred))
+    #Train
     print(accuracy_score(y_train, pred2))
 
 
+#Confusion matrix
 def plot_confusion_matrix(y, y_test, pred):
     cm = pd.DataFrame(confusion_matrix(y_test, pred), columns=set(y_test), index=set(y_test))
     plt.show(sns.heatmap(cm, annot=True))
     
 
-    
 def main():
     
     file_contents = read_input()
@@ -258,7 +259,7 @@ def main():
     X_train, y_train, X_test, y_test = test_train_split(file_contents)
     knn(X_train, y_train, X_test, y_test, 50)
     multiclass_svm_ovo(X_train, y_train, X_test, y_test)
-    #Grid search for random 
+    #Grid search for random forests
     random_forest(X_train, y_train, X_test, y_test, 50)
     random_forest(X_train, y_train, X_test, y_test, 100)
     random_forest(X_train, y_train, X_test, y_test, 200)

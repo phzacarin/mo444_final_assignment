@@ -74,7 +74,7 @@ At first, the imbalance will be disregarded as an important characteristic and t
 	\item Random Forests (RF)
 \end{itemize}
 
-After each one of these methods were applied, a better approach will be considered: splitting the dataset into two, training the first one with the majority of the examples with one classifier and the other one, with classes with fewer examples, with another one. For that second scenario, a performance metric of 5x2 cross validation will be utilized.
+After each one of these methods were applied, a better approach will be considered: splitting the dataset into two, training the first one with the majority of the examples with one classifier and the other one, with classes with fewer examples, with another one. For that second scenario, a separation of $80\%$/$20\%$ for training and cross validation sets will be utilized to evaluate performance. K-fold validation in this case can't be applied because of the small number of examples in some classes, which makes a stratified division in K folds of the dataset impossible.
 
 \section{Development}
 The first attempt made in order to create a classifier was to consider the whole dataset for the classification. The training set and test set were initially created considering the number of examples of each style, which leads to both sets preserving the percentage of samples for each class. For that scenario, $80\%$ of the dataset was utilized for training and $20\%$ for validation purposes.
